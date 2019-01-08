@@ -74,7 +74,7 @@
 										<li><span>00 S</span></li>
 									</ul>
 									<button class="main-btn quick-view"><i class="fa fa-search-plus"></i> Xem </button>
-									<img src="./img/<?php echo $row['anh']; ?>" alt="">
+									<img src="./admin/product/img/<?php echo $row['anh']; ?>" alt="">
 								</div>
 								<div class="product-body">
 									<h3 class="product-price"><?php echo $row['gia']; ?>đ<del class="product-old-price">$45.00</del></h3>

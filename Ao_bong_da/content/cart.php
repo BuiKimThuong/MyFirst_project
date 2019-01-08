@@ -1,34 +1,7 @@
- <?php 
-  // kiểm tra submit khi có sản phẩm,nếu sản phẩm có sl = 0 thì xóa.
-    if(isset($_POST['submit']) && isset($_POST['so_luong'])) { 
-       // xóa theo phiên mã sản phẩm.
-        foreach($_POST['so_luong'] as $key => $val) {
-            if ($val <= 0 && count($_POST['so_luong'])==1) {
-            	unset($_SESSION['cart']);
-            }
-            else if($val <= 0) { 
-                unset($_SESSION['cart'][$key]); 
-            }
-            else{ 
-                $_SESSION['cart'][$key]['so_luong']=$val; 
-            } 
-        } 
-          
-    } 
+ <?php  
   	if(isset($_POST['delete_all'])) {
   		unset($_SESSION['cart']);
   	}
-  	// if(isset($_POST['delete'])) {
-  	// 	print_r($_POST['delete']) ;
-  	// 	foreach ($_POST['delete'] as $key => $value) {
-  	// 		if (count($_POST['delete'])==1) {
-   //          	unset($_SESSION['cart']);
-   //          }
-   //          else { 
-   //              unset($_SESSION['cart']['ma_san_pham']); 
-   //          }
-  	// 	}
-  	// }
 ?> 
 <form method="post" action="./checkout.php" class="clearfix">
 	<div class="col-md-6">
@@ -133,8 +106,8 @@
 								<table class="shopping-cart-table table">
 									<thead>
 										<tr>
-											<th>sản Phẩm</th>
-											<th></th>
+											<th>Sản Phẩm</th>
+											<th>Miêu tả</th>
 											<th class="text-center">Giá</th>
 											<th class="text-center">Số Lượng</th>
 											<th class="text-center">Tổng Cộng</th>
@@ -157,7 +130,7 @@
 
 										?>
 										<tr>
-											<td class="thumb"><img src="./img/<?php echo $row['anh'] ?>" alt=""></td>
+											<td class="thumb"><img src="./admin/product/img/<?php echo $row['anh'] ?>" alt=""></td>
 											<td class="details">
 												<a href="#"><?php echo $row['ten_san_pham'] ?></a>
 												<ul>
@@ -167,11 +140,13 @@
 											</td>
 											<td class="price text-center"><strong><?php echo $row['gia'] ?>đ</strong><br><del class="font-weak"><small></small></del></td>
 											<td class="qty text-center">
-												<input class="input" type="number" name="so_luong[<?php echo $row['ma_san_pham'] ?>]" value="<?php echo $_SESSION['cart'][$row['ma_san_pham']]['so_luong'] ?>">
+												<a class="main-btn icon-btn" href="./content/quantity.php?ma=<?php echo $row['ma_san_pham'] ?>"><i class="fa fa-minus"></i></a>
+												<?php echo $_SESSION['cart'][$row['ma_san_pham']]['so_luong'] ?>
+												<a class="main-btn icon-btn" href="./content/quantity.php?ma=<?php echo $row['ma_san_pham'] ?>&action=plus"><i class="fa fa-plus"></i></a>
 											</td>
 											<td class="total text-center"><strong class="primary-color"><?php echo $tong_gia; ?>đ</strong></td>
 											<td class="text-right">
-												<a href="./content/delete_product.php?ma=<?php echo $row['ma_san_pham'] ?>"><i class="fa fa-trash"></i></a>
+												<a class="main-btn icon-btn" href="./content/delete_product.php?ma=<?php echo $row['ma_san_pham'] ?>"><i class="fa fa-trash"></i></a>
 										</tr>
 										<?php
 												}

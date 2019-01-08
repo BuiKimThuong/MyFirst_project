@@ -31,7 +31,7 @@ if (isset($_POST['button_submit'])) {
 			$_SESSION['ngay_sinh'] = $row['ngay_sinh'];
 			$_SESSION['dia_chi'] = $row['dia_chi'];
 			$_SESSION['gioi_tinh'] = $row['gioi_tinh'];
-			header('location:index_customer.php');
+			header('location:profile.php');
 		}
 		else {
 			header('location: login.php?error_register');

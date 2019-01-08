@@ -50,8 +50,8 @@
     autoplay: true,
     infinite: true,
     speed: 500,
-    dots: true,
-    arrows: false,
+    dots:  false,
+    arrows: true,
     appendDots: '.product-slick-dots-1',
     responsive: [{
         breakpoint: 991,

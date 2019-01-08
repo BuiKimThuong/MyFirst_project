@@ -33,15 +33,27 @@
 									<i class="fa fa-user-o"></i>
 								</div>
 								<strong class="text-uppercase">Tài Khoản <i class="fa fa-caret-down"></i></strong><br>
+								<?php if (isset($_SESSION['ten'])) {
+									$ten          = $_SESSION['ten'];
+									?>
+									<p>Xin chào <b><?php echo $ten ?></b></p>
+									</div>
+									<ul class="custom-menu" style="width: 240px;">
+										<li><a href="profile.php"><i class="fa fa-user-o"></i> Tài Khoản</a></li>
+										<li><a href="logout.php"><i class="fa fa-sign-in"></i> Đăng Xuất</a></li>
+									</ul>
+								<?php } else { ?>
 								<a href="#" class="text-uppercase">Đăng kí</a>/<a href="#" class="text-uppercase">Đăng nhập</a>
-							</div>
-							<ul class="custom-menu" style="width: 240px;">
-								<li><a href="#"><i class="fa fa-user-o"></i> Tài Khoản</a></li>
-								<li><a href="#"><i class="fa fa-sign-in"></i> Đăng Nhập</a></li>
-								<li><a href="#"><i class="fa fa-user-plus"></i> Đăng Kí</a></li>
-								<li><a href="#"><i class="fa fa-google-plus"></i> Đăng Nhập Bằng G+</a></li>
-								<li><a href="#"><i class="fa fa-facebook"></i> Đăng Nhập Facebook</a></li>
-							</ul>
+								</div>
+								<ul class="custom-menu" style="width: 240px;">
+									<li><a href="../Ao_bong_da/form_login.php"><i class="fa fa-sign-in"></i> Đăng Nhập</a></li>
+									<li><a href="../Ao_bong_da/login.php"><i class="fa fa-user-plus"></i> Đăng Kí</a></li>
+									<li><a href="#"><i class="fa fa-google-plus"></i> Đăng Nhập Bằng G+</a></li>
+									<li><a href="#"><i class="fa fa-facebook"></i> Đăng Nhập Facebook</a></li>
+								</ul>
+								<?php
+									}
+								 ?>
 						</li>
 						<!-- /Account -->
 
@@ -93,7 +105,7 @@
 										?>
 											<div class="product product-widget">
 												<div class="product-thumb">
-													<img src="./img/<?php echo $row['anh'] ?>" alt="">
+													<img src="./admin/product/img/<?php echo $row['anh'] ?>" alt="">
 												</div>
 												<div class="product-body">
 													<h3 class="product-price"><?php echo $row['gia']; ?><span class="qty">đ x	<?php echo $_SESSION['cart'][$row['ma_san_pham']]['so_luong'] ?></span></h3>
