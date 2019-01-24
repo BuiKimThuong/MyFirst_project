@@ -1,7 +1,7 @@
 <?php 
 if (isset($_GET['submit'])) {
-	$email = $_GET['email'];
-	$mat_khau = $_GET['mat_khau'];
+	$email = addslashes($_GET['email']);
+	$mat_khau = addslashes($_GET['mat_khau']);
 	require_once 'connect_database.php';
 	$query = "select * from admin where email = '$email' and mat_khau = '$mat_khau'";
 	$result = mysqli_query($connect,$query);

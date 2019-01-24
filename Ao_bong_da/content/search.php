@@ -57,7 +57,9 @@
 					<div  class="product-slick-1 product-slick">
 						<!-- Product Single -->
 						<?php				
-							$query = "select * from san_pham where ten_san_pham like '%$search%' order by ten_san_pham ASC";
+							$query = "select * from san_pham
+							join cau_lac_bo on san_pham.ma_cau_lac_bo = cau_lac_bo.ma_cau_lac_bo
+							 where ten_san_pham like '%$search%' or kich_co like '%$search%' or ten_cau_lac_bo like '%$search%' order by ten_san_pham ASC";
 							$result = mysqli_query($connect,$query);
 							$count = mysqli_num_rows($result);
 							mysqli_close($connect);

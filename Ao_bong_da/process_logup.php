@@ -1,6 +1,6 @@
 <?php 
 
-if (isset($_POST['button_submit'])) {
+if (isset($_POST['button_submit']) && !empty($_POST['ho_ten']) && !empty($_POST['gioi_tinh']) && !empty($_POST['email']) && !empty($_POST['sdt']) && !empty($_POST['password']) && !empty($_POST['dia_chi']) && !empty($_POST['year']) && !empty($_POST['month']) && !empty($_POST['day'])) {
 	$ten = $_POST['ho_ten'];
 	$gioi_tinh = $_POST['gioi_tinh'];
 	$email = $_POST['email'];

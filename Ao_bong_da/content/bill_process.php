@@ -74,9 +74,38 @@ if (!empty($_SESSION['cart']) && $dem <= 100) {
 				values ('$ma_hoa_don','$id','$so_luong')";
 				mysqli_query($connect,$query);
 			}
-			mysqli_close($connect);
-			unset($_SESSION['cart']);
-			header('location:../checkout.php?success');
+
+			// kiểm tra còn hàng ko khi 2 khách hàng mua cùng lúc 1 sp
+			foreach ($_SESSION['cart'] as $id => $product) {
+				$ma_san_pham = $id;
+				$query_sp = "select sum(so_luong),so_luong_da_nhap,ten_san_pham from hoa_don_chi_tiet
+				join hoa_don on hoa_don_chi_tiet.ma_hoa_don = hoa_don.ma_hoa_don
+				join san_pham on san_pham.ma_san_pham = hoa_don_chi_tiet.ma_san_pham
+				where san_pham.ma_san_pham = '$ma_san_pham' and tinh_trang != 3";
+				$result_sp = mysqli_query($connect,$query_sp);
+				$row_sp = mysqli_fetch_array($result_sp);
+				$so_luong_da_mua = $row_sp['sum(so_luong)'];
+				$so_luong_da_nhap = $row_sp['so_luong_da_nhap'];
+				if ($so_luong_da_nhap < $so_luong_da_mua) {
+					$kiem_tra = false;
+					$query_dl1 = "delete * from hoa_don_chi_tiet where ma_hoa_don='$ma_hoa_don'";
+					mysqli_query($connect,$query_dl1);
+
+					$query_dl2 = "delete * from hoa_don where ma_hoa_don='$ma_hoa_don'";
+					mysqli_query($connect,$query_dl2);
+					break;
+				} else {
+					$kiem_tra = true;
+				}
+			}
+			if ($kiem_tra == true) {
+				mysqli_close($connect);
+				unset($_SESSION['cart']);
+				header('location:../checkout.php?success');
+			} else {
+				header('location:../checkout.php?error_quantity&ten='.$ten_san_pham);
+			}
+			
 		} else {
 				header('location:../checkout.php?error_quantity&ten='.$ten_san_pham);
 		}

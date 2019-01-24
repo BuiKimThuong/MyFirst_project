@@ -3,23 +3,68 @@
 <head>
 	<title></title>
 </head>
+
 <body>
+	<a href="../index.php">Trang chủ</a>
+	<br>
 	<?php 
 		$file_header_admin = "../login.php";
 		require_once '../check_admin.php';
 		require_once '../connect_database.php';
+		if (isset($_GET['duyet'])) {
+			echo "<script>alert('Đã duyệt thành công');</script>";
+		} else if (isset($_GET['huy'])) {
+			echo "<script>alert('Đã hủy thành công');</script>";
+		}
+		
+		//mặc định lúc đầu không có giá trị tìm kiếm
+		$search = "";
+
+		//nếu có thì truyền vào biến
+		if(isset($_GET['search'])){
+			$search = $_GET['search'];
+		}
+
+		//giới hạn bản ghi trên 1 trang, ví dụ ở đây là limit: 1
+		$limit = 10;
+
+		//lúc đầu ở trang 1, không đc sửa
+		$page = 1;
+
+		//nếu chưa sang trang nào thì mặc định là 1, nếu không thì lấy về
+		if (isset($_GET["page"])) { 
+			$page  = $_GET["page"]; 
+		}
+		$offset = ($page-1) * $limit; 
+
 		$query = "select * from  hoa_don 
 		join khach_hang on hoa_don.ma_khach_hang = khach_hang.ma_khach_hang
 		join hoa_don_chi_tiet on hoa_don.ma_hoa_don = hoa_don_chi_tiet.ma_hoa_don
 		join san_pham on hoa_don_chi_tiet.ma_san_pham = san_pham.ma_san_pham
-		where tinh_trang =";
+		where (ten_khach_hang like '%$search%' or ten_san_pham like '%$search%') and tinh_trang =";
 		if (isset($_GET['check'])) {
-			$query.= "2 or tinh_trang = 3 order by thoi_gian_dat_hang";
+			$query.= "2 or tinh_trang = 3 order by thoi_gian_dat_hang limit $limit offset $offset";
 		} else {
-			$query.= "1 order by thoi_gian_dat_hang";
+			$query.= "1 order by thoi_gian_dat_hang limit $limit offset $offset";
 		}
-		
 		$result = mysqli_query($connect,$query);
+
+		$query_count = "select count(*) from  hoa_don 
+		join khach_hang on hoa_don.ma_khach_hang = khach_hang.ma_khach_hang
+		join hoa_don_chi_tiet on hoa_don.ma_hoa_don = hoa_don_chi_tiet.ma_hoa_don
+		join san_pham on hoa_don_chi_tiet.ma_san_pham = san_pham.ma_san_pham
+		where (ten_khach_hang like '%$search%' or ten_san_pham like '%$search%') and tinh_trang =";
+		if (isset($_GET['check'])) {
+			$query_count.= "2 or tinh_trang = 3 order by thoi_gian_dat_hang";
+		} else {
+			$query_count.= "1 order by thoi_gian_dat_hang";
+		}
+		$result_count = mysqli_query($connect,$query_count);
+		$row_count = mysqli_fetch_array($result_count);
+		$count = $row_count['count(*)'];
+
+		//lấy số trang
+		$total_page = ceil($count / $limit);
 		mysqli_close($connect);
 		$array = array();
 		while ($row = mysqli_fetch_array($result)) {
@@ -37,6 +82,23 @@
 
 		}
 	 ?>
+	 
+	 <caption>
+			<form>
+				Tìm kiếm: 
+				<input type="text" name="search" value="<?php echo $search ?>">
+				<?php if (isset($_GET['check'])) { ?>
+					<button name="check">Tìm</button>
+				<?php } else { ?>
+					<button>Tìm</button>
+				<?php
+				}
+				 ?>
+				
+			</form>
+	</caption>
+	<br>
+
 	 <table width="100%" border="1">
 	 	<tr>
 	 		<th>Ngày đặt hàng</th>
@@ -96,5 +158,18 @@
 	 		}
 	 	 ?>
 	 </table>
+	 <div align='center'>
+	<?php
+		for ($i=1; $i<=$total_page; $i++) { 
+			if (isset($_GET['check'])) {
+	?> 
+		<a href='bill_view.php?check&page=<?php echo $i ?>&search=<?php echo $search ?>'><?php echo $i ?></a> 
+	<?php } else { ?>
+		<a href='bill_view.php?page=<?php echo $i ?>&search=<?php echo $search ?>'><?php echo $i ?></a>
+	<?php
+			}
+		}
+	?>
+	</div>
 </body>
 </html>

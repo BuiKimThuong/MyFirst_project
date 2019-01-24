@@ -402,6 +402,18 @@ textarea.input {
   color: #F8694A;
 }
 
+.fit-box {  
+  width: 140px;
+  height: 50%;
+  overflow: hidden;
+}
+
+.fit-box-text {
+  font-family: Arial, sans-serif;
+  line-height: 1;
+  font-size: 10px;
+  overflow: hidden;
+}
 /*----------------------------*\
 	Cart header
 \*----------------------------*/

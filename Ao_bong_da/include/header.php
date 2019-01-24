@@ -29,7 +29,7 @@
 					<?php 
 						$search = "";
 						if (isset($_GET['search'])) {
-							$search = $_GET['search'];
+							$search = addslashes($_GET['search']);
 						}
 					 ?>
 					<form>
@@ -51,7 +51,9 @@
 								<?php if (isset($_SESSION['ten'])) {
 									$ten          = $_SESSION['ten'];
 									?>
-									<p>Xin chào <b><?php echo $ten ?></b></p>
+									<div class="fit-box">
+									Xin chào <span class="fit-box-text"><b><?php echo $ten ?></b></span>
+									</div>
 									</div>
 									<ul class="custom-menu" style="width: 240px;">
 										<li><a href="profile.php"><i class="fa fa-user-o"></i> Tài Khoản</a></li>
@@ -140,8 +142,7 @@
 									</div>
 									<div class="shopping-cart-btns">
 										<a href="checkout.php?loi">
-											<button class="main-btn">Xem Giỏ Hàng</button>
-										
+										<button class="main-btn">Xem Giỏ Hàng</button>
 										<button class="primary-btn">Thanh Toán <i class="fa fa-arrow-circle-right"></i></button>
 										</a>
 									</div>

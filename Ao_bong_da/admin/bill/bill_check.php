@@ -13,6 +13,11 @@
 	$query = "update hoa_don set tinh_trang = '$tinh_trang' where ma_hoa_don = '$ma_hoa_don' and tinh_trang = 1";
 	mysqli_query($connect,$query);
 	mysqli_close($connect);
-	$history = $_SERVER['HTTP_REFERER'];
-	header("location:$history");
+	// $kieu = "duyet"?'duyet' :'huy';
+	if ($kieu == "duyet") {
+		header("location:bill_view.php?".$kieu);
+	}
+	else {
+		header("location:bill_view.php?".$kieu);
+	}
  ?>

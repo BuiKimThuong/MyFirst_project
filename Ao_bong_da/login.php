@@ -39,7 +39,7 @@
 							</div>
 							<?php 
 								if (isset($_GET['error_logup'])) {
-									echo "<h4 class='red'>Emai hoặc SĐT đã đăng kí tài khoản</h4>";
+									echo "<h4 class='red'>Email hoặc SĐT đã đăng kí tài khoản</h4>";
 								} 
 								else if (isset($_GET['error_register'])) {
 									echo "<h4 class='red'>Đăng nhập thất bại</h4>";
@@ -97,12 +97,12 @@
 							<div class="form-group">
 								<label for="thanh_pho">Tỉnh/TP</label>
 								<select class="input" name="thanh_pho" id="thanh_pho">
-									<option disabled selected value="-1">Tỉnh/TP</option>
+									<option disabled selected value="Tỉnh/TP">Tỉnh/TP</option>
 									<option value="TP.HCM">TP.HCM</option>
 									<option value="Hải Phòng">Hải Phòng</option>
 									<option value="Hà Nội">Hà Nội</option>
 								</select>
-								<p id="loi_thanh_pho" class="loi">Bạn chưa chọn Tỉnh/TP !</p>
+								<!-- <p id="loi_thanh_pho" class="loi">Bạn chưa chọn Tỉnh/TP !</p> -->
 								<br>
 							</div>
 							<div class="pull-left">
@@ -248,17 +248,17 @@
 			}
 
 			// thanh_pho
-			var thanh_pho = document.getElementById('thanh_pho').value;
-			if(thanh_pho==-1){
-				document.getElementById('loi_thanh_pho').style.display = 'block';
-				document.getElementById('thanh_pho').focus();
-				dem_sai = 1;
-			}
-			else{
-				document.getElementById('thanh_pho').style.outline = 'none';
-				document.getElementById('thanh_pho').style.border = 'green 1px solid';
-				document.getElementById('loi_thanh_pho').style.display = 'none';
-			}
+			// var thanh_pho = document.getElementById('thanh_pho').value;
+			// if(thanh_pho==-1){
+			// 	document.getElementById('loi_thanh_pho').style.display = 'block';
+			// 	document.getElementById('thanh_pho').focus();
+			// 	dem_sai = 1;
+			// }
+			// else{
+			// 	document.getElementById('thanh_pho').style.outline = 'none';
+			// 	document.getElementById('thanh_pho').style.border = 'green 1px solid';
+			// 	document.getElementById('loi_thanh_pho').style.display = 'none';
+			// }
 
 			// ngay_thang_nam
 			var nam = document.getElementById('year').value;

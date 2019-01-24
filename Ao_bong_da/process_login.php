@@ -1,7 +1,7 @@
 <?php 
 	if (!empty($_POST['submit'])) {
-		$email = $_POST['email'];
-		$password = $_POST['password'];
+		$email = addslashes($_POST['email']);
+		$password = addslashes($_POST['password']);
 		$connect = mysqli_connect('localhost','root','','ao_bong_da');
 		mysqli_set_charset($connect,'utf8');
 		$query = "select * from khach_hang where email='$email' and mat_khau = '$password'";

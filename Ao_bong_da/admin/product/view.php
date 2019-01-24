@@ -29,7 +29,7 @@
 	$query = "select * from san_pham
 	join cau_lac_bo
 	on san_pham.ma_cau_lac_bo = cau_lac_bo.ma_cau_lac_bo
-	where ten_san_pham like'%$search%' limit $limit offset $offset";
+	where ten_san_pham like'%$search%' order by ma_san_pham limit $limit offset $offset";
 	$result = mysqli_query($connect,$query);
 
 	$query_count = "select count(*) from san_pham where ten_san_pham like'%$search%'";

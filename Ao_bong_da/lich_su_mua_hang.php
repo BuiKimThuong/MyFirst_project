@@ -27,15 +27,39 @@
 	if (isset($_GET['error'])) {
 		echo "<script>alert('Xoá hóa đơn thất bại');</script>";
 	}
-	$ma_khach_hang = $_SESSION['ma_khach_hang'];
-	$query = "select * from  hoa_don 
-	join khach_hang on hoa_don.ma_khach_hang = khach_hang.ma_khach_hang
-	join hoa_don_chi_tiet on hoa_don.ma_hoa_don = hoa_don_chi_tiet.ma_hoa_don
-	join san_pham on hoa_don_chi_tiet.ma_san_pham = san_pham.ma_san_pham
-	where khach_hang.ma_khach_hang = '$ma_khach_hang' order by thoi_gian_dat_hang";
-	$result = mysqli_query($connect,$query);
-	mysqli_close($connect);
-	$array = array();
+	//giới hạn bản ghi trên 1 trang, ví dụ ở đây là limit: 1
+		$limit = 10;
+
+		//lúc đầu ở trang 1, không đc sửa
+		$page = 1;
+
+		//nếu chưa sang trang nào thì mặc định là 1, nếu không thì lấy về
+		if (isset($_GET["page"])) { 
+			$page  = $_GET["page"]; 
+		}
+		$offset = ($page-1) * $limit; 
+
+		$ma_khach_hang = $_SESSION['ma_khach_hang'];
+		$query = "select * from  hoa_don 
+		join khach_hang on hoa_don.ma_khach_hang = khach_hang.ma_khach_hang
+		join hoa_don_chi_tiet on hoa_don.ma_hoa_don = hoa_don_chi_tiet.ma_hoa_don
+		join san_pham on hoa_don_chi_tiet.ma_san_pham = san_pham.ma_san_pham
+		where khach_hang.ma_khach_hang = '$ma_khach_hang' order by thoi_gian_dat_hang limit $limit offset $offset";
+		$result = mysqli_query($connect,$query);
+
+		$query_count = "select count(*) from hoa_don 
+		join khach_hang on hoa_don.ma_khach_hang = khach_hang.ma_khach_hang
+		join hoa_don_chi_tiet on hoa_don.ma_hoa_don = hoa_don_chi_tiet.ma_hoa_don
+		join san_pham on hoa_don_chi_tiet.ma_san_pham = san_pham.ma_san_pham
+		where khach_hang.ma_khach_hang = '$ma_khach_hang' order by thoi_gian_dat_hang";
+		$result_count = mysqli_query($connect,$query_count);
+		$row_count = mysqli_fetch_array($result_count);
+		$count = $row_count['count(*)'];
+
+		//lấy số trang
+		$total_page = ceil($count / $limit);
+		mysqli_close($connect);
+		$array = array();
 	while ($row = mysqli_fetch_array($result)) {
 		$ma_hoa_don = $row['ma_hoa_don'];
 		$array[$ma_hoa_don]['ten_khach_hang'] = $row['ten_khach_hang'];
@@ -122,6 +146,16 @@
 								<?php } ?>
 							</tbody>
 						</table>
+						<div align='center'>
+						<?php
+							for ($i=1; $i<=$total_page; $i++) 
+							{ 
+						?> 
+							<a class="main-btn icon-btn" href='lich_su_mua_hang.php?page=<?php echo $i ?>'><?php echo $i ?></a> 
+						<?php
+							}
+						?>
+						</div>
 						<div class="pull-right" >
 							<a href="index.php">
 								<button class="primary-btn">Tiếp tục mua hàng</button>
